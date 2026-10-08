@@ -10,13 +10,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MeController {
     private final UserRepository users;
-    public MeController(UserRepository users) { this.users = users; }
+
+    public MeController(UserRepository users) {
+        this.users = users;
+    }
 
     @GetMapping("/api/me")
     public Map<String, Object> me(@AuthenticationPrincipal OAuth2User principal) {
-        var email = principal.getAttribute("email");
+        String email = principal.getAttribute("email");
         var user = email == null ? null : users.findByEmailIgnoreCase(email).orElse(null);
-        if (user == null) throw new IllegalStateException("Authenticated user is not registered.");
+        if (user == null) {
+            throw new IllegalStateException("Authenticated user is not registered.");
+        }
         return Map.of("id", user.getId(), "email", user.getEmail(), "displayName", user.getDisplayName());
     }
 }
