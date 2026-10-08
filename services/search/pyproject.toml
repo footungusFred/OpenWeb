@@ -1,0 +1,16 @@
+[project]
+name = "openweb-search"
+version = "0.1.0"
+description = "Search and indexing service for OpenWeb"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi>=0.115,<1.0",
+  "uvicorn[standard]>=0.30,<1.0"
+]
+
+[project.scripts]
+openweb-search = "openweb_search.main:run"
+
+[build-system]
+requires = ["setuptools>=70"]
+build-backend = "setuptools.build_meta"
